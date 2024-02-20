@@ -28,3 +28,19 @@ export function Input({
   variant,
 }: { children: ReactNode } & VariantProps<typeof input>) {
   const { root } = input({ variant })
+
+  return (
+    <inputContext.Provider value={{ variant }}>
+      <div className={root()}>{children}</div>
+    </inputContext.Provider>
+  )
+}
+
+export interface ControlProps extends ComponentProps<'input'> {}
+
+export function Control({ className, ...props }: ControlProps) {
+  const { variant } = useContext(inputContext)
+  const { control } = input({ variant })
+
+  return <input className={control({ className })} {...props} />
+}
